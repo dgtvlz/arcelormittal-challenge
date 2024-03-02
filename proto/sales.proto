@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+service SalesService {
+    rpc ProcessSale (SalesMessage) returns (ConfirmationReply);
+}
+
+message SalesMessage {
+    string item = 1;
+    int32 quantity = 2;
+    float price = 3;
+    string date = 4;
+}
+
+message ConfirmationReply {
+  string message = 1;
+}
