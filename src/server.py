@@ -72,14 +72,14 @@ class SalesService(sales_pb2_grpc.SalesServiceServicer):
 
         # Calculating Avg per sale
         for item_data in statistics.values():
-            if item_data['total_quantity'] > 0:
-                item_data['average_per_sale'] = item_data['total_revenue'] / item_data['total_quantity']
+            if item_data['total_sales'] > 0:
+                item_data['average_per_sale'] = item_data['total_quantity'] / item_data['total_sales']
             else:
                 item_data['average_per_sale'] = 0
             
             for month_data in item_data['monthly'].values():
-                if month_data['total_quantity'] > 0:
-                    month_data['average_per_sale'] = month_data['total_revenue'] / month_data['total_quantity']
+                if month_data['total_sales'] > 0:
+                    month_data['average_per_sale'] = month_data['total_quantity'] / month_data['total_sales']
                 else:
                     month_data['average_per_sale'] = 0
     
