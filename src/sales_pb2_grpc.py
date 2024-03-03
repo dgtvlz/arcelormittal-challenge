@@ -2,6 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 import sales_pb2 as sales__pb2
 
 
@@ -19,6 +20,11 @@ class SalesServiceStub(object):
                 request_serializer=sales__pb2.SalesMessage.SerializeToString,
                 response_deserializer=sales__pb2.ConfirmationReply.FromString,
                 )
+        self.GetSalesStatistics = channel.unary_unary(
+                '/SalesService/GetSalesStatistics',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=sales__pb2.ConfirmationReply.FromString,
+                )
 
 
 class SalesServiceServicer(object):
@@ -30,12 +36,23 @@ class SalesServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetSalesStatistics(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_SalesServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'ProcessSale': grpc.unary_unary_rpc_method_handler(
                     servicer.ProcessSale,
                     request_deserializer=sales__pb2.SalesMessage.FromString,
+                    response_serializer=sales__pb2.ConfirmationReply.SerializeToString,
+            ),
+            'GetSalesStatistics': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSalesStatistics,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                     response_serializer=sales__pb2.ConfirmationReply.SerializeToString,
             ),
     }
@@ -61,6 +78,23 @@ class SalesService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/SalesService/ProcessSale',
             sales__pb2.SalesMessage.SerializeToString,
+            sales__pb2.ConfirmationReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetSalesStatistics(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/SalesService/GetSalesStatistics',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             sales__pb2.ConfirmationReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
