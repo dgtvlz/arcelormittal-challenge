@@ -11,24 +11,31 @@ import threading
 
 app = Flask(__name__)
 
-sales_data = []
-
 class SalesService(sales_pb2_grpc.SalesServiceServicer):
-    def ProcessSale(self, request, context):
-        global sales_data
-        sales_data.append({
+    def ProcessSale(self, request, context):      
+        sale_data = {
             "item": request.item,
             "quantity": request.quantity,
             "price": request.price,
             "date": request.date
-        })
-        print(f"Sales data lenght {len(sales_data)}")
+        }
+
+        with open('sales_data.json', 'a') as json_file:
+            json.dump(sale_data, json_file)
+            json_file.write('\n')
+
+        print(f"Sale data {sale_data}")
+
         return sales_pb2.ConfirmationReply(
-            message=f"Sale: item {request.item}, quantity {request.quantity}, price {request.price}, date {request.date}. Sales data: {sales_data}"
+            message=f"Sale data: {sale_data}"
         )
         
     def GetStatistics(self):
-        global sales_data
+        sales_data = []
+        with open('sales_data.json', 'r') as json_file:
+            for line in json_file:
+                sale_data = json.loads(line)
+                sales_data.append(sale_data)
 
         statistics = {}    
         for sale in sales_data:
