@@ -4,20 +4,27 @@ import grpc
 import sales_pb2
 import sales_pb2_grpc
 import logging
+import sys
 
-def run():
-    with grpc.insecure_channel('localhost:50051') as channel:
-        stub = sales_pb2_grpc.SalesServiceStub(channel)
-        response = stub.ProcessSale(sales_pb2.SalesMessage(
-            item='apple',
-            quantity=7,
-            price=5.2,
-            date="2023-01-02T00:20:51+00:00"
+def run(json_file_path):
+    with open(json_file_path, 'r') as json_file:
+        data = json.load(json_file)
+        with grpc.insecure_channel('localhost:50051') as channel:
+            stub = sales_pb2_grpc.SalesServiceStub(channel)
+            response = stub.ProcessSale(sales_pb2.SalesMessage(
+                item=data['item'],
+                quantity=data['quantity'],
+                price=data['price'],
+                date=data['date']
+                )
             )
-        )
-        print("Sales client received: " + response.message)
+            print("Sales client received: " + response.message)
 
 
 if __name__ == "__main__":
     logging.basicConfig()
-    run()
+    if len(sys.argv) != 2:
+        print("Usage: python3 client.py <json_file_path>")
+        sys.exit(1)
+    json_file_path = sys.argv[1]
+    run(json_file_path)

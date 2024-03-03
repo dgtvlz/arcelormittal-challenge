@@ -22,15 +22,15 @@ class SalesService(sales_pb2_grpc.SalesServiceServicer):
             "price": request.price,
             "date": request.date
         })
-        print(f"Sale: item {request.item}, quantity {request.quantity}, price {request.price}, date {request.date}")
+        print(f"Sales data lenght {len(sales_data)}")
         return sales_pb2.ConfirmationReply(
             message=f"Sale: item {request.item}, quantity {request.quantity}, price {request.price}, date {request.date}. Sales data: {sales_data}"
         )
         
     def GetStatistics(self):
         global sales_data
-        statistics = {}
-    
+
+        statistics = {}    
         for sale in sales_data:
             date = datetime.strptime(sale['date'], '%Y-%m-%dT%H:%M:%S%z')
             month_key = f"{date.year}-{date.strftime('%m')}"
