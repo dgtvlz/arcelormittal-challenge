@@ -1,8 +1,8 @@
 import os
 import json
 import grpc
-import sales_pb2
-import sales_pb2_grpc
+from proto_files import sales_pb2
+from proto_files import sales_pb2_grpc
 import logging
 import sys
 
