@@ -5,7 +5,6 @@ import sales_pb2
 import sales_pb2_grpc
 import logging
 from concurrent import futures
-from collections import defaultdict
 from datetime import datetime
 
 sales_data = []
