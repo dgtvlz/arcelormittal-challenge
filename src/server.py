@@ -6,6 +6,10 @@ import sales_pb2_grpc
 import logging
 from concurrent import futures
 from datetime import datetime
+from flask import Flask, jsonify
+import threading
+
+app = Flask(__name__)
 
 sales_data = []
 
@@ -22,16 +26,9 @@ class SalesService(sales_pb2_grpc.SalesServiceServicer):
         return sales_pb2.ConfirmationReply(
             message=f"Sale: item {request.item}, quantity {request.quantity}, price {request.price}, date {request.date}. Sales data: {sales_data}"
         )
-
-    def GetSalesStatistics(self, request, context):
+        
+    def GetStatistics(self):
         global sales_data
-        
-        monthly_data = self.CalculateStatistics(sales_data)
-        json_data = json.dumps(monthly_data, indent=4)
-
-        return sales_pb2.ConfirmationReply(message=json_data)
-        
-    def CalculateStatistics(self, sales_data):
         statistics = {}
     
         for sale in sales_data:
@@ -85,7 +82,7 @@ class SalesService(sales_pb2_grpc.SalesServiceServicer):
         
         return statistics
 
-def serve():
+def serve_grpc():
     port = "50051"
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     sales_pb2_grpc.add_SalesServiceServicer_to_server(SalesService(), server)
@@ -94,7 +91,14 @@ def serve():
     print("Server started, listening on " + port)
     server.wait_for_termination()
 
+@app.route('/sales_statistics', methods=['GET'])
+def get_sales_statistics():
+    service = SalesService()
+    statistics = service.GetStatistics()
+    return jsonify(statistics)
 
 if __name__ == "__main__":
     logging.basicConfig()
-    serve()
+    grpc_server_thread = threading.Thread(target=serve_grpc)
+    grpc_server_thread.start()
+    app.run(debug=True, port=50052)

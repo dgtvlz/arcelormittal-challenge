@@ -12,20 +12,19 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
-from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bsales.proto\x1a\x1bgoogle/protobuf/empty.proto\"K\n\x0cSalesMessage\x12\x0c\n\x04item\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\x05\x12\r\n\x05price\x18\x03 \x01(\x02\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\t\"$\n\x11\x43onfirmationReply\x12\x0f\n\x07message\x18\x01 \x01(\t2\x82\x01\n\x0cSalesService\x12\x30\n\x0bProcessSale\x12\r.SalesMessage\x1a\x12.ConfirmationReply\x12@\n\x12GetSalesStatistics\x12\x16.google.protobuf.Empty\x1a\x12.ConfirmationReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bsales.proto\"K\n\x0cSalesMessage\x12\x0c\n\x04item\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\x05\x12\r\n\x05price\x18\x03 \x01(\x02\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\t\"$\n\x11\x43onfirmationReply\x12\x0f\n\x07message\x18\x01 \x01(\t2@\n\x0cSalesService\x12\x30\n\x0bProcessSale\x12\r.SalesMessage\x1a\x12.ConfirmationReplyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'sales_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_SALESMESSAGE']._serialized_start=44
-  _globals['_SALESMESSAGE']._serialized_end=119
-  _globals['_CONFIRMATIONREPLY']._serialized_start=121
-  _globals['_CONFIRMATIONREPLY']._serialized_end=157
-  _globals['_SALESSERVICE']._serialized_start=160
-  _globals['_SALESSERVICE']._serialized_end=290
+  _globals['_SALESMESSAGE']._serialized_start=15
+  _globals['_SALESMESSAGE']._serialized_end=90
+  _globals['_CONFIRMATIONREPLY']._serialized_start=92
+  _globals['_CONFIRMATIONREPLY']._serialized_end=128
+  _globals['_SALESSERVICE']._serialized_start=130
+  _globals['_SALESSERVICE']._serialized_end=194
 # @@protoc_insertion_point(module_scope)

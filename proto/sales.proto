@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/empty.proto";
-
 message SalesMessage {
     string item = 1;
     int32 quantity = 2;
@@ -15,5 +13,4 @@ message ConfirmationReply {
 
 service SalesService {
     rpc ProcessSale (SalesMessage) returns (ConfirmationReply);
-    rpc GetSalesStatistics (google.protobuf.Empty) returns (ConfirmationReply);
 }
