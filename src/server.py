@@ -20,7 +20,7 @@ class SalesService(sales_pb2_grpc.SalesServiceServicer):
             "date": request.date
         }
 
-        with open('sales_data.json', 'a') as json_file:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'db', 'sales_data.json'), 'a') as json_file:
             json.dump(sale_data, json_file)
             json_file.write('\n')
 
@@ -32,7 +32,9 @@ class SalesService(sales_pb2_grpc.SalesServiceServicer):
         
     def GetStatistics(self):
         sales_data = []
-        with open('sales_data.json', 'r') as json_file:
+
+        # Loading Sales Data
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'db', 'sales_data.json'), 'r') as json_file:
             for line in json_file:
                 sale_data = json.loads(line)
                 sales_data.append(sale_data)
