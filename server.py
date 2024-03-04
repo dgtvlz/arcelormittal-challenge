@@ -1,8 +1,8 @@
 import os
 import json
 import grpc
-from proto_files import sales_pb2
-from proto_files import sales_pb2_grpc
+from grpc_compiled import sales_pb2
+from grpc_compiled import sales_pb2_grpc
 import logging
 from concurrent import futures
 from datetime import datetime
@@ -95,7 +95,7 @@ def serve_grpc():
     port = "50051"
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     sales_pb2_grpc.add_SalesServiceServicer_to_server(SalesService(), server)
-    server.add_insecure_port("[::]:" + port)
+    server.add_insecure_port("0.0.0.0:" + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()
@@ -110,4 +110,4 @@ if __name__ == "__main__":
     logging.basicConfig()
     grpc_server_thread = threading.Thread(target=serve_grpc)
     grpc_server_thread.start()
-    app.run(debug=True, port=50052)
+    app.run(host="0.0.0.0", port=50052, debug=True)

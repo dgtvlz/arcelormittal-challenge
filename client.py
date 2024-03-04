@@ -1,15 +1,15 @@
 import os
 import json
 import grpc
-from proto_files import sales_pb2
-from proto_files import sales_pb2_grpc
+from grpc_compiled import sales_pb2
+from grpc_compiled import sales_pb2_grpc
 import logging
 import sys
 
 def run(json_file_path):
     with open(json_file_path, 'r') as json_file:
         data = json.load(json_file)
-        with grpc.insecure_channel('localhost:50051') as channel:
+        with grpc.insecure_channel('grpc-server:50051') as channel:
             stub = sales_pb2_grpc.SalesServiceStub(channel)
             response = stub.ProcessSale(sales_pb2.SalesMessage(
                 item=data['item'],

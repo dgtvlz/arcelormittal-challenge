@@ -17,6 +17,7 @@ total_paths=${#paths[@]}
 
 for ((i=0; i<${total_paths}; i++)); do
     path="${paths[$i]}"
-    python3 "src/client.py" "$path"
+    #python3 "src/client.py" "$path"
+    docker run --network grpc-network dgtvlz/arcelor-grpc-client /app/$path
     echo "Progress: $(( (i + 1) * 100 / total_paths ))%"
 done
