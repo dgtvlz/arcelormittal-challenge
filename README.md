@@ -97,6 +97,17 @@ import grpc_compiled.sales_pb2 as sales__pb2
 
 The API response provides statistics in JSON format, including total quantities, averages per sale, total revenue, and monthly statistics for each product.
 
+## Running the Script to automatically load Sales Data
+
+To simulate the ingestion of JSON files in the data directory sequentially, use the `load_sales.sh` script located in the `utils` directory. This script reads the paths to the JSON files from `available_files.txt` and loads them sequentially.
+
+To execute the script, navigate to the `utils` directory and run:
+
+```bash
+cd utils
+./load_sales.sh
+```
+
 ## Future Improvements
 
 - Replace the `sales_data.json` file with a database solution like MongoDB to improve scalability and data management.
