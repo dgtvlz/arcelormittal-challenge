@@ -56,6 +56,16 @@ For example:
 docker run --network grpc-network -i arcelor-grpc-client < data/2023/1/10/00261.json
 ```
 
+The json file must have the following format:
+```json
+{"date": string datetime, "quantity": int, "item": string, "price": float}
+```
+
+Example:
+```json
+{"date": "2023-01-31T06:03:17+00:00", "quantity": 5, "item": "papaya", "price": 7.3}
+```
+
 ## Calling the Statistics API
 
 You can call the statistics API using curl:
