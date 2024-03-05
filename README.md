@@ -95,7 +95,7 @@ import grpc_compiled.sales_pb2 as sales__pb2
 - The server receives the message from the client and saves it in `db/sales_data.json`.
 - Additionally, the server exposes an API using Flask. The API reads `db/sales_data.json` and generates statistics based on the sales data.
 
-The API response provides statistics in JSON format, including total quantities, averages per sale, total revenue, and monthly statistics for each product.
+The API response provides statistics in JSON format, including total quantities, average quantity per sale, total revenue, and monthly statistics for each product.
 
 ## Running the Script to automatically load Sales Data
 
