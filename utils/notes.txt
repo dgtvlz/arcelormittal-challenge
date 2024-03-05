@@ -13,13 +13,14 @@ python3 -m grpc_tools.protoc -I../proto \
     ../proto/sales.proto
 
 
-docker build -t dgtvlz/arcelor-grpc-client -f ClientDockerfile .
-docker build -t dgtvlz/arcelor-grpc-server -f ServerDockerfile .
+docker build -t arcelor-grpc-server -f ServerDockerfile .
+docker build -t arcelor-grpc-server -f ServerDockerfile .
 
 docker network create grpc-network
 
 docker run -d --name grpc-server --network grpc-network -p 50051:50051 -p 50052:50052 -v db:/app/db dgtvlz/arcelor-grpc-server
 
-docker run --network grpc-network dgtvlz/arcelor-grpc-client /app/data/2023/7/28/05694.json
+
+docker run --network grpc-network -i dgtvlz/arcelor-grpc-client < data/2023/1/10/00261.json 
 
 
