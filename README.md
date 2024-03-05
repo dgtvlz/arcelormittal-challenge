@@ -96,3 +96,8 @@ import grpc_compiled.sales_pb2 as sales__pb2
 - Additionally, the server exposes an API using Flask. The API reads `db/sales_data.json` and generates statistics based on the sales data.
 
 The API response provides statistics in JSON format, including total quantities, averages per sale, total revenue, and monthly statistics for each product.
+
+## Future Improvements
+
+- Replace the `sales_data.json` file with a database solution like MongoDB to improve scalability and data management.
+- Implement a GitHub Actions pipeline to automate Docker build and push to a Docker registry.
