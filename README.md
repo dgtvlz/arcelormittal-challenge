@@ -15,19 +15,19 @@ This repository contains a client and server gRPC application for managing sales
 1. Create a Docker network:
 
 ```bash
-   docker network create grpc-network
+docker network create grpc-network
 ```
 
 2. Build the server Docker image:
 
 ```bash
-   docker build -t arcelor-grpc-server -f ServerDockerfile .
+docker build -t arcelor-grpc-server -f ServerDockerfile .
 ```
 
 3. Build the client Docker image:
 
 ```bash
-   docker build -t arcelor-grpc-client -f ClientDockerfile .
+docker build -t arcelor-grpc-client -f ClientDockerfile .
 ```
 
 ## Running the Server
@@ -35,7 +35,7 @@ This repository contains a client and server gRPC application for managing sales
 Execute the following command to run the server:
 
 ```bash
-   docker run -d --name grpc-server --network grpc-network -p 50051:50051 -p 50052:50052 -v db:/app/db arcelor-grpc-server
+docker run -d --name grpc-server --network grpc-network -p 50051:50051 -p 50052:50052 -v db:/app/db arcelor-grpc-server
 ```
 
 The port 50051 correspond to the gRPC Server, and the port 50052 corresponds to the Flask API.
@@ -47,13 +47,13 @@ The server utilizes a JSON file `sales_data.json` in the `db` directory as its "
 Run the client using the following command:
 
 ```bash
-   docker run --network grpc-network -i arcelor-grpc-client < /path/to/local/json/file.json
+docker run --network grpc-network -i arcelor-grpc-client < /path/to/local/json/file.json
 ```
 
 For example:
 
 ```bash
-   docker run --network grpc-network -i arcelor-grpc-client < data/2023/1/10/00261.json
+docker run --network grpc-network -i arcelor-grpc-client < data/2023/1/10/00261.json
 ```
 
 ## Calling the Statistics API
@@ -61,7 +61,7 @@ For example:
 You can call the statistics API using curl:
 
 ```bash
-   curl http://localhost:50052/sales_statistics
+curl http://localhost:50052/sales_statistics
 ```
 
 ## How It Works
@@ -70,16 +70,16 @@ You can call the statistics API using curl:
 - The `sales.proto` file is compiled using the following command:
 
 ```bash
-   python3 -m grpc_tools.protoc -I../proto \
-       --python_out=../grpc_compiled \
-       --pyi_out=../grpc_compiled \
-       --grpc_python_out=../grpc_compiled \
-       ../proto/sales.proto
+python3 -m grpc_tools.protoc -I../proto \
+    --python_out=../grpc_compiled \
+    --pyi_out=../grpc_compiled \
+    --grpc_python_out=../grpc_compiled \
+    ../proto/sales.proto
 ```
 
 - After compilation, we manually adjust the import in `grpc_compiled/sales_pb2_grpc.py` to match the directory.
 ```python
-    import grpc_compiled.sales_pb2 as sales__pb2
+import grpc_compiled.sales_pb2 as sales__pb2
 ```
 - The client receives a JSON from stdin, connects to the server, and pushes the `SalesMessage`.
 - The server receives the message from the client and saves it in `db/sales_data.json`.
