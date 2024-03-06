@@ -108,6 +108,16 @@ cd utils
 ./load_sales.sh
 ```
 
+## Running Tests
+
+To run the tests for this project, make sure you have Pytest installed. Then, execute the following command:
+
+```bash
+python3 -m pytest test_server.py
+```
+
+The test focuses on the ProcessSale method in the server. Upon execution, pytest will output the results of the test, indicating whether they passed or failed.
+
 ## Future Improvements
 
 - Replace the `sales_data.json` file with a database solution like MongoDB to improve scalability and data management.
