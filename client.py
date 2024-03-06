@@ -7,6 +7,11 @@ import logging
 import sys
 
 def run():
+    """
+    Sales client application.
+    Reads JSON data from stdin, creates a gRPC channel to communicate with the Sales server.
+    Sends a SalesMessage request containing the JSON data.
+    """
     data = json.load(sys.stdin)
     with grpc.insecure_channel('grpc-server:50051') as channel:
         stub = sales_pb2_grpc.SalesServiceStub(channel)

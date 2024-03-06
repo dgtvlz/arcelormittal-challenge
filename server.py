@@ -13,6 +13,9 @@ app = Flask(__name__)
 
 class SalesService(sales_pb2_grpc.SalesServiceServicer):
     def ProcessSale(self, request, context):      
+        """
+        Process a sale request from a client.
+        """
         sale_data = {
             "item": request.item,
             "quantity": request.quantity,
@@ -20,17 +23,22 @@ class SalesService(sales_pb2_grpc.SalesServiceServicer):
             "date": request.date
         }
 
+        # Saving sale into db
         with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'db', 'sales_data.json'), 'a') as json_file:
             json.dump(sale_data, json_file)
             json_file.write('\n')
 
         print(f"Sale data {sale_data}")
 
+        #Returning confirmation to client
         return sales_pb2.ConfirmationReply(
             message=f"Sale data: {sale_data}"
         )
         
     def GetStatistics(self):
+        """
+        Retrieve dict with sales statistics.
+        """
         sales_data = []
 
         # Loading Sales Data
@@ -70,7 +78,7 @@ class SalesService(sales_pb2_grpc.SalesServiceServicer):
             statistics[item]['monthly'][month_key]['total_revenue'] += sale['quantity'] * sale['price']
             statistics[item]['monthly'][month_key]['total_sales'] += 1
 
-        # Calculating Avg per sale
+        # Calculating Avg quantity per sale
         for item_data in statistics.values():
             if item_data['total_sales'] > 0:
                 item_data['average_per_sale'] = item_data['total_quantity'] / item_data['total_sales']
@@ -91,6 +99,7 @@ class SalesService(sales_pb2_grpc.SalesServiceServicer):
         
         return statistics
 
+# Setting up gRPC server
 def serve_grpc():
     port = "50051"
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -100,6 +109,7 @@ def serve_grpc():
     print("Server started, listening on " + port)
     server.wait_for_termination()
 
+# Setting up Flask API
 @app.route('/sales_statistics', methods=['GET'])
 def get_sales_statistics():
     service = SalesService()
